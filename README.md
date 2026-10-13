@@ -2,14 +2,14 @@
 
 Forsion Desktop **磁盘主题包**模板 —— 两个文件就是一个主题：`theme.json`（清单）+ `theme.css`（样式）。
 
-## 先理解双轴模型（最重要的一件事）
+## 先理解三轴模型（最重要的一件事）
 
-Forsion 的主题分两根正交的轴：
+Forsion 的外观分三根正交的轴：
 
 - **设计语言**（`data-theme`，即本主题包）：只管**结构**——圆角、字体、阴影、面板布局；
-- **配色**（`data-skin`，应用内置 cream/coral/teal/lavender/custom）：管全部**颜色** token。
+- **主题色**（`data-skin`）与**背景色**（`data-bg`）：分别决定强调色与背景、文字等颜色 token，可独立搭配。
 
-所以正确的主题包**不定义颜色**：`--bg`、`--bg-card`、`--accent`、`--border`、`--glow` 等颜色 token 只「消费」不「定义」，这样你的语言配任何配色都成立。若你执意在语言里定颜色：light 块定义了哪些颜色变量，`.dark[data-theme=…]` 暗色块就必须**逐一同名镜像**，否则暗色模式会继承亮色残值。
+所以正确的主题包**不定义颜色**：`--bg`、`--bg-card`、`--accent`、`--border`、`--glow` 等颜色 token 只「消费」不「定义」，这样你的语言配任何主题色和背景色都成立。若你执意在语言里定颜色：light 块定义了哪些颜色变量，`.dark[data-theme=…]` 暗色块就必须**逐一同名镜像**，否则暗色模式会继承亮色残值。
 
 ## 快速开始
 
@@ -21,7 +21,7 @@ git clone https://github.com/Changan-Su/tangu-sample-theme
 
 ## 契约速查
 
-- `theme.json` 必填：`id`（=目录名）、`name`、`description`、`version`（市场更新检查读它）、`supportsDarkMode`、`preview.background`（可 light/dark 双值）、`preview.accent`。可选：`author`、`tags`、`panelGap`（>0 时外壳给停靠面板留间距做浮卡）、`fonts.google`（激活时懒加载，务必写本地字体兜底）、`preview.swatches/tagline/title`。
+- `theme.json` 必填：`id`（=目录名）、`name`、`description`、`version`（市场更新检查读它）、`supportsDarkMode`、`preview.background`（可 light/dark 双值）、`preview.accent`。可选：`author`、`tags`、`panelGap`（>0 时外壳给停靠面板留间距做浮卡）、`fonts.google`（激活时懒加载，务必写本地字体兜底）、`preview.swatches/tagline/title`。准备中英文上架时，补充 `descriptionEn`、`preview.taglineEn`，可调设置另补 `labelEn`、`descriptionEn` 和选项 `labelEn`。
 - `theme.css` 全局注入**不隔离**——每条规则都要挂 `[data-theme='<id>']` 前缀，否则泄漏到其他主题。暗色块用 `.dark[data-theme='<id>']`；建议尊重扁平开关 `[data-theme='<id>'][data-flat='1']`（清空阴影）。
 - 参考实现：应用首启种子的 `~/.forsion/themes/soft/`（渐变舞台 + 浮卡结构的完整案例）。
 
@@ -33,6 +33,6 @@ git clone https://github.com/Changan-Su/tangu-sample-theme
 
 ## English (short)
 
-A Forsion Desktop disk theme = `theme.json` + `theme.css` in `~/.forsion/themes/<id>/`. Themes are the *structure* axis (radius/font/shadow); colors come from the built-in *skin* axis — consume color tokens, don't define them (or mirror every color var in the `.dark[data-theme=…]` block). Scope every rule under `[data-theme='<id>']`. Reload live via Settings → Theme → Reload themes.
+A Forsion Desktop disk theme = `theme.json` + `theme.css` in `~/.forsion/themes/<id>/`. Themes are the *structure* axis (radius/font/shadow); accent and background palettes are independent — consume color tokens, don't define them (or mirror every color var in the `.dark[data-theme=…]` block). Scope every rule under `[data-theme='<id>']`. Reload live via Settings → Theme → Reload themes.
 
 MIT © Changan Su
